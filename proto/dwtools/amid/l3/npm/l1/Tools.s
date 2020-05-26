@@ -418,51 +418,120 @@ _readChangeWrite.defaults =
 
 //
 
-function dependantsRertive( npmPackageName )
+/**
+ * @summary Retrieves package dependants number from npm storage.
+ * @param {(string|string[])} o.remotePath Package name or array of names(the same as on npm storage).
+ * @param {boolean} [o.sync=0] Controls sync/async execution mode.
+ * @param {number} [o.verbosity=0] Verbosity control.
+ * @returns {(number|number[])} Dependanst number for one package or array of dependants for array of packages.
+ * @function dependantsRetrieve
+ * @namespace wTools.npm
+ * @module Tools/mid/NpmTools
+ */
+
+function dependantsRetrieve( o )
 {
   const https = require( 'https' );
+  const self = this;
+  let ready = new _.Consequence().take( null );
+  let prefixUri = 'https://www.npmjs.com/package/';
+
+  if( !_.mapIs( o ) )
+  o = { remotePath : o }
+  _.routineOptions( dependantsRetrieve, o );
+
+  let isSingle = !_.arrayIs( o.remotePath );
+  o.remotePath = _.arrayAs( o.remotePath );
 
   _.assert( arguments.length === 1, 'Expects single argument' );
-  _.assert( typeof arguments[ 0 ] === 'string', 'Expects string as a package name' );
-  _.assert( arguments[ 0 ].length !== 0, 'Expects not empty string as a package name' );
+  _.assert( o.remotePath.length, 'Expects not empty array' );
+  _.assert( _.strsAreAll( o.remotePath ), 'Expects only strings as a package name' );
 
-  const url = `https://www.npmjs.com/package/${npmPackageName}`;
+  if( o.remotePath.length > 1 )
+  console.log( 'Loading data, wait... Total requests: ' + o.remotePath.length );
 
-  let ready = new _.Consequence();
+  for( let i = 0; i < o.remotePath.length; i++ )
+  ready.also( () => request( uriNormalize( o.remotePath[ i ] ) ) );
 
-  https.get( url, ( res ) =>
+  ready.then( ( result ) =>
   {
-    res.setEncoding( 'utf8' );
-    let html = '';
+    /* remove heading null */
+    result.splice( 0, 1 )
+    if( isSingle )
+    return result[ 0 ];
+    return result;
+  } );
 
-    res.on( 'error', ( err ) => err );
-
-    res.on( 'data', ( data ) =>
-    {
-      html += data;
-    } );
-
-    res.on( 'end', () =>
-    {
-      let dependants = '';
-      const strWithDep = html.match( /[0-9]*,?[0-9]*<\/span>Dependents/ );
-
-      if ( !strWithDep )
-      {
-        ready.take( NaN );
-        return;
-      }
-
-      const idx = strWithDep.index;
-
-      for ( let i = idx; html[ i ] !== '<'; i++ )
-      dependants += html[ i ];
-
-      ready.take( Number( dependants.split( ',' ).join( '' ) ) );
-    } );
-  } )
+  if( o.sync )
+  {
+    ready.deasync();
+    return ready.sync();
+  }
 
   return ready;
+
+  /* */
+
+  function uriNormalize( filePath )
+  {
+    let result;
+    if( _.uri.isGlobal( filePath ) )
+    {
+      let parsed = self.pathParse( filePath );
+      result = prefixUri + ( parsed.longPath[ 0 ] === '/' ? parsed.longPath.slice( 1 ) : parsed.longPath );
+    }
+    else
+    {
+      result = prefixUri + filePath;
+    }
+    return result;
+  }
+
+  /* */
+
+  function request( uri )
+  {
+    let ready2 = new _.Consequence();
+    if( o.verbosity >= 3 )
+    console.log( ` . Retrieving ${uri}..` );
+    https
+    .get( uri, ( res ) =>
+    {
+      let html = '';
+      res.setEncoding( 'utf8' );
+      res.on( 'data', ( data ) => html += data );
+      res.on( 'end', () => handleEnd( ready2, html, uri ) );
+    } )
+    .on( 'error', ( err ) => ready2.error( err ) );
+    return ready2;
+  }
+
+  /* */
+
+  function handleEnd( ready2, html, uri )
+  {
+    let dependants = '';
+    const strWithDep = html.match( /[0-9]*,?[0-9]*<\/span>Dependents/ );
+
+    if( o.verbosity >= 3 )
+    console.log( ` + Retrieved ${uri}.` );
+
+    if( !strWithDep )
+    return ready2.take( NaN );
+
+    for( let i = strWithDep.index; html[ i ] !== '<'; i++ )
+    dependants += html[ i ];
+
+    ready2.take( Number( dependants.split( ',' ).join( '' ) ) );
+  }
+
+}
+
+dependantsRetrieve.defaults =
+{
+  sync : 0,
+  remotePath : null,
+  verbosity : 0,
 }
 
 // --
@@ -1101,7 +1170,7 @@ let Extend =
 
   _readChangeWrite,
 
-  dependantsRertive,
+  dependantsRetrieve,
 
   // vcs
 
@@ -1125,7 +1194,7 @@ _.mapExtend( Self, Extend );
 
 //
 
-if( typeof module !== 'undefined' && module !== null )
+if( typeof module !== 'undefined' )
 module[ 'exports' ] = _global_.wTools;
 
 })();
