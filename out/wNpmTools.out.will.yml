@@ -3,14 +3,14 @@ root:
   - wNpmTools.out
 consistency:
   wNpmTools.out.will.yml: &ref_0
-    hash: 662f55774dfbac27621010e43d6d8c9e
-    size: 39134
+    hash: a6c3c5770c3af171fc757e7a936e12e3
+    size: 39397
   ../.ex.will.yml: &ref_1
     hash: 7a8f7d5e4489bf9cdc32adf70a6c2eb3
     size: 1710
   ../.im.will.yml: &ref_2
-    hash: 92e790b794241babde21cb866657f7c3
-    size: 4962
+    hash: 7a2575128252457e39677ebcce90e6d1
+    size: 5018
 module:
   wNpmTools.out:
     about:
@@ -113,7 +113,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/dwtools/amid/l3/npm/IncludeMid.s
+        path: ../proto/dwtools/amid/l3/npm/Include.ss
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -123,13 +123,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/IncludeMid.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/Include.ss'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/IncludeMid.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/Include.ss'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -155,38 +155,64 @@ module:
           export: 1
         path:
           - ../proto
+          - ../proto/Integration.test.s
           - ../proto/dwtools
           - ../proto/dwtools/Tools.s
           - ../proto/dwtools/abase
           - ../proto/dwtools/amid
           - ../proto/dwtools/amid/l3
           - ../proto/dwtools/amid/l3/npm
-          - ../proto/dwtools/amid/l3/npm/IncludeBase.s
-          - ../proto/dwtools/amid/l3/npm/IncludeMid.s
+          - ../proto/dwtools/amid/l3/npm/Include.ss
+          - ../proto/dwtools/amid/l3/npm/include
+          - ../proto/dwtools/amid/l3/npm/include/Basic.ss
+          - ../proto/dwtools/amid/l3/npm/include/Mid.ss
           - ../proto/dwtools/amid/l3/npm/l1
-          - ../proto/dwtools/amid/l3/npm/l1/Tools.s
+          - ../proto/dwtools/amid/l3/npm/l1/Basic.ss
           - ../proto/dwtools/amid/l3.test
           - ../proto/dwtools/amid/l3.test/NpmTools.test.ss
+          - ../proto/dwtools/amid/l3.test/_assets
+          - ../proto/dwtools/amid/l3.test/_assets/bump
+          - ../proto/dwtools/amid/l3.test/_assets/bump/Hello.js
+          - ../proto/dwtools/amid/l3.test/_assets/bump/Hello.test.js
+          - ../proto/dwtools/amid/l3.test/_assets/bump/package.json
+          - ../proto/dwtools/amid/l3.test/_assets/fixateEmptyVersions
+          - >-
+            ../proto/dwtools/amid/l3.test/_assets/fixateEmptyVersions/forComparison.json
+          - >-
+            ../proto/dwtools/amid/l3.test/_assets/fixateEmptyVersions/forRewriting.json
+          - >-
+            ../proto/dwtools/amid/l3.test/_assets/fixateEmptyVersions/package.json
+          - ../proto/dwtools/amid/l3.test/_assets/fixateNotEmptyVersions
+          - >-
+            ../proto/dwtools/amid/l3.test/_assets/fixateNotEmptyVersions/forComparison.json
+          - >-
+            ../proto/dwtools/amid/l3.test/_assets/fixateNotEmptyVersions/forRewriting.json
+          - >-
+            ../proto/dwtools/amid/l3.test/_assets/fixateNotEmptyVersions/package.json
           - ../proto/dwtools/atop
     submodule:
       wTools:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wCopyable:
-        path: 'npm:///wCopyable'
-        autoExporting: 0
-        enabled: 0
       wFiles:
         path: 'npm:///wFiles'
         autoExporting: 0
         enabled: 0
-      wAppBasic:
-        path: 'npm:///wappbasic'
+      wProcess:
+        path: 'npm:///wprocess'
+        autoExporting: 0
+        enabled: 0
+      wHttp:
+        path: 'npm:///whttp'
         autoExporting: 0
         enabled: 0
       package-json:
         path: 'npm:///package-json#6.5.0'
+        autoExporting: 0
+        enabled: 0
+      eslint:
+        path: 'npm:///eslint#7.1.0'
         autoExporting: 0
         enabled: 0
     reflector:
@@ -197,8 +223,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -213,8 +237,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -229,8 +251,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -245,8 +265,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -261,8 +279,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           raw: raw
           debug: release
@@ -278,8 +294,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -296,8 +310,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -313,8 +325,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -330,8 +340,6 @@ module:
           prefixPath: ''
         dst:
           prefixPath: ''
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -346,6 +354,7 @@ module:
           prefixPath: ../proto
         mandatory: 1
         dstRewritingOnlyPreserving: 1
+        linking: hardLinkMaybe
         criterion:
           generated: 1
           content: proto
@@ -358,8 +367,6 @@ module:
           prefixPath: 'path::exported.dir.proto.export'
           recursive: 0
         recursive: 0
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           generated: 1
           content: proto
@@ -621,7 +628,7 @@ module:
           debug: release
       reflect.proto.debug.raw:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: debug
@@ -631,7 +638,7 @@ module:
           - files.reflect
       reflect.proto.release.raw:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: release
@@ -641,7 +648,7 @@ module:
           - files.reflect
       reflect.proto.debug.compiled:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: debug
@@ -651,7 +658,7 @@ module:
           - files.reflect
       reflect.proto.release.compiled:
         opts:
-          reflector: 'reflector::reflect.proto*'
+          filePath: 'reflector::reflect.proto*'
         criterion:
           tests: no.tests
           debug: release
@@ -662,7 +669,7 @@ module:
       transpile.proto.raw:
         opts:
           entry: 'path::entry.proto.no.tests'
-          reflector: 'reflector::transpile.proto.raw*'
+          filePath: 'reflector::transpile.proto.raw*'
         criterion:
           raw: raw
           debug: release
@@ -672,7 +679,7 @@ module:
       transpile.proto.no.tests.compiled.debug:
         opts:
           entry: 'path::entry.proto.*=1'
-          reflector: 'reflector::transpile.proto.no.tests.compiled*'
+          filePath: 'reflector::transpile.proto.no.tests.compiled*'
         criterion:
           tests: no.tests
           raw: compiled
@@ -683,7 +690,7 @@ module:
       transpile.proto.no.tests.compiled.release:
         opts:
           entry: 'path::entry.proto.*=1'
-          reflector: 'reflector::transpile.proto.no.tests.compiled*'
+          filePath: 'reflector::transpile.proto.no.tests.compiled*'
         criterion:
           tests: no.tests
           raw: compiled
@@ -695,7 +702,7 @@ module:
         opts:
           entry: 'path::entry.proto.*=1'
           external.before: '{path::out.*=1}/Main.s'
-          reflector: 'reflector::transpile.proto.only.tests.compiled*'
+          filePath: 'reflector::transpile.proto.only.tests.compiled*'
         criterion:
           tests: only.tests
           raw: compiled
@@ -707,7 +714,7 @@ module:
         opts:
           entry: 'path::entry.proto.*=1'
           external.before: '{path::out.*=1}/Main.s'
-          reflector: 'reflector::transpile.proto.only.tests.compiled*'
+          filePath: 'reflector::transpile.proto.only.tests.compiled*'
         criterion:
           tests: only.tests
           raw: compiled
@@ -717,7 +724,7 @@ module:
           - files.transpile
       exported.proto.export:
         opts:
-          reflector: 'reflector::exported.proto.export*'
+          filePath: 'reflector::exported.proto.export*'
         criterion:
           generated: 1
           content: proto
@@ -726,7 +733,7 @@ module:
           - files.reflect
       exported.files.proto.export:
         opts:
-          reflector: 'reflector::exported.files.proto.export*'
+          filePath: 'reflector::exported.files.proto.export*'
         criterion:
           generated: 1
           content: proto
@@ -925,7 +932,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/dwtools/amid/l3/npm/IncludeMid.s
+        path: proto/dwtools/amid/l3/npm/Include.ss
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -935,13 +942,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/IncludeMid.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/Include.ss'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/IncludeMid.s'
+        path: '{path::out.*=1}/source/dwtools/amid/l3/npm/Include.ss'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -959,20 +966,24 @@ module:
         path: 'npm:///wTools'
         autoExporting: 0
         enabled: 0
-      wCopyable:
-        path: 'npm:///wCopyable'
-        autoExporting: 0
-        enabled: 0
       wFiles:
         path: 'npm:///wFiles'
         autoExporting: 0
         enabled: 0
-      wAppBasic:
-        path: 'npm:///wappbasic'
+      wProcess:
+        path: 'npm:///wprocess'
+        autoExporting: 0
+        enabled: 0
+      wHttp:
+        path: 'npm:///whttp'
         autoExporting: 0
         enabled: 0
       package-json:
         path: 'npm:///package-json#6.5.0'
+        autoExporting: 0
+        enabled: 0
+      eslint:
+        path: 'npm:///eslint#7.1.0'
         autoExporting: 0
         enabled: 0
     reflector:
@@ -980,8 +991,6 @@ module:
         src:
           filePath:
             'path::proto': '{path::out.*=1}/source'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -993,8 +1002,6 @@ module:
         src:
           filePath:
             'path::proto': '{path::out.*=1}/source'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -1006,8 +1013,6 @@ module:
         src:
           filePath:
             'path::proto': '{path::out.*=1}/source'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: debug
@@ -1019,8 +1024,6 @@ module:
         src:
           filePath:
             'path::proto': '{path::out.*=1}/source'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           debug: release
@@ -1032,8 +1035,6 @@ module:
         src:
           filePath:
             'path::proto': '{path::out.raw.release}'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           raw: raw
           debug: release
@@ -1046,8 +1047,6 @@ module:
             '**.test*': 0
             '**.test/**': 0
             'path::proto': '{path::out.*=1}/Main.s'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -1061,8 +1060,6 @@ module:
             '**.test*': 0
             '**.test/**': 0
             'path::proto': '{path::out.*=1}/Main.s'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: no.tests
           raw: compiled
@@ -1075,8 +1072,6 @@ module:
           filePath:
             '**.test*': 1
             'path::proto': '{path::out.*=1}/Tests.test.s'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -1089,8 +1084,6 @@ module:
           filePath:
             '**.test*': 1
             'path::proto': '{path::out.*=1}/Tests.test.s'
-        mandatory: 1
-        dstRewritingOnlyPreserving: 1
         criterion:
           tests: only.tests
           raw: compiled
@@ -1528,6 +1521,8 @@ module:
         hash: 7a8f7d5e4489bf9cdc32adf70a6c2eb3
         size: 1710
       ../.im.will.yml:
-        hash: 92e790b794241babde21cb866657f7c3
-        size: 4962
-      wNpmTools.out.will.yml: *ref_0
+        hash: 7a2575128252457e39677ebcce90e6d1
+        size: 5018
+      wNpmTools.out.will.yml:
+        hash: a6c3c5770c3af171fc757e7a936e12e3
+        size: 39397
